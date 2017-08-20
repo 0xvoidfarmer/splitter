@@ -61,6 +61,7 @@ contract Split{
 		if(!isRunning) throw;
 		return claimStructs[claimant].amountClaimed;
 	}
+	
 
 	function claim()
 		public 
