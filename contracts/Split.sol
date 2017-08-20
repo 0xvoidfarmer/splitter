@@ -61,7 +61,7 @@ contract Split{
 		if(!isRunning) throw;
 		return claimStructs[claimant].amountClaimed;
 	}
-	
+
 
 	function claim()
 		public 
@@ -77,7 +77,10 @@ contract Split{
 		claimStructs[msg.sender].amountDue -= amountToClaim;
 	    claimStructs[msg.sender].amountClaimed += amountToClaim;
 	    
-		if(!msg.sender.send(amountToClaim)) throw;
+		if(!msg.sender.send(amountToClaim)) {
+			LogClaimedOwedFail(msg.sender, amountToClaim);
+			throw;
+		}
 	
 		LogClaimedOwedSuccess(msg.sender,amountToClaim);
 

@@ -31,7 +31,7 @@ contract("Splitter", function(accounts) {
 	});
 
 
-	//split 
+	//split 	
 
 	it("should split sender's deposit equally between receiver 1 and 2 ", function(){
 		var depositToSplit = 42;	
@@ -50,6 +50,14 @@ contract("Splitter", function(accounts) {
 			assert.equal(_notInvitedOwed, 0, "NotInvited's owed amount is not correct");
 		});		
 		
+	});
+
+	it("should emit  LogDepositSplit event",function(){
+		var depositToSplit = 42;
+		return splitContract.split(receiver1,receiver2, {from:sender, value: depositToSplit })				
+			.then( function(events){
+				 assert.equal(events.logs[0].event, "LogDepositSplit", "LogClaimedOwedSuccess event was expcted");				
+			});		
 	});
 
 	it("should split sender's odd number deposit and add remainder to sender ", function(){
@@ -83,6 +91,17 @@ contract("Splitter", function(accounts) {
 				return splitContract.fetchOwedAmount(receiver1);
 			}).then(function(_owedAmount){
 				assert.equal(_owedAmount, 0 , "receiver1's owed amount is not correct");
+			});
+		});
+	});
+
+	it("should emit  LogClaimedOwedSuccess event",function(){
+		var depositToSplit = 42;
+		return splitContract.split(receiver1,receiver2, {from:sender, value: depositToSplit })
+		.then(function(txn){
+			return splitContract.claim({from: receiver1})			
+			.then( function(events){
+				 assert.equal(events.logs[0].event, "LogClaimedOwedSuccess", "LogClaimedOwedSuccess event was expcted");				
 			});
 		});
 	});
