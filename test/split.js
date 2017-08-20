@@ -56,7 +56,7 @@ contract("Splitter", function(accounts) {
 		var depositToSplit = 42;
 		return splitContract.split(receiver1,receiver2, {from:sender, value: depositToSplit })				
 			.then( function(events){
-				 assert.equal(events.logs[0].event, "LogDepositSplit", "LogClaimedOwedSuccess event was expcted");				
+				 assert.equal(events.logs[0].event, "LogDepositSplit", "LogDepositSplit event was expcted");				
 			});		
 	});
 
