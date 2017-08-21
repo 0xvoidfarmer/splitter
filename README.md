@@ -1,6 +1,6 @@
-# splitter
-Splitter Contract
+# Splitter
 
+Splitter Contract
 Splits a sender's deposit equally between two receivers.
 
 - Accepts deposits values >= 2
