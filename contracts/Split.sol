@@ -5,12 +5,12 @@ contract Split{
 	bool public isRunning;
 	address public owner;
 
-	struct claimStruct{
+	struct ClaimStruct{
 		uint amountDue;
 		uint amountClaimed;
 	}
 
-	mapping (address => claimStruct) public claimStructs;
+	mapping (address => ClaimStruct) public claimStructs;
 
 	event LogDepositSplit(address sender, address receiver1, address receiver2, uint deposit, uint splitAmount);
 	event LogClaimedOwedSuccess(address claimant, uint amount);
@@ -49,7 +49,6 @@ contract Split{
 		constant
 		returns(uint dueAmount)
 	{
-		if(!isRunning) throw;
 		return claimStructs[claimant].amountDue;
 	}
 
@@ -57,8 +56,7 @@ contract Split{
 		public
 		constant
 		returns(uint claimedAmount)
-	{
-		if(!isRunning) throw;
+	{		
 		return claimStructs[claimant].amountClaimed;
 	}
 
@@ -78,7 +76,6 @@ contract Split{
 	    claimStructs[msg.sender].amountClaimed += amountToClaim;
 	    
 		if(!msg.sender.send(amountToClaim)) {
-			LogClaimedOwedFail(msg.sender, amountToClaim);
 			throw;
 		}
 	
